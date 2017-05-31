@@ -1,13 +1,9 @@
 <template>
   <div class="user-pane">
-    < div class="user-profile">
-      <img v-bind:src="avatarLink" class="avatar" alt="user-avatar" />
-      <h3 class="user-name">{{ name }}</h3>
-  </div>
-  <p id="display">
-    {{ display }}
-  </p>
-  </div>
+    <div class="user-profile">
+      <img class="user-avatar" v-bind:src="avatarSrc" alt="avatar" /div>
+      <h3>{{userNmae}}</h3>
+    </div>
 </template>
 
 <script>

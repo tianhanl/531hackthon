@@ -30,6 +30,7 @@ public class loginServlet extends HttpServlet {
     	
     	if(SQLDriver.checkPassword(username, password)){
     		// login successfully
+    		
     	}else{
     		// login fail
     	}

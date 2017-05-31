@@ -79,7 +79,7 @@
 
     .card .card-content {
       margin-top: 0.5em;
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
 
     .card .card-content a {
@@ -98,51 +98,22 @@
 
 <body>
   <div id="app">
-    <p>{{userlocation}}</p>
-    <user-pane :username="username" :userlocation="userlocation" :avatar-src="avatarSrc"></user-pane>
-    <board :card-list="cardList" :userlocation="userlocation"></board>
+    <user-pane :username="username" :avatar-src="avatarSrc"></user-pane>
+    <board :card-list="cardList"></board>
   </div>
   <!-- Start of script -->
 
   <script src="./script/vue.js "></script>
+  <script src="./script/axios.min.js"></script>
   <!-- Improt Library -->
 
   <script src="./script/config.js"></script>
+  <script src="./script/cards.js"></script>
   <script>
-    const ZhihuCardContent = {
-      template: '<div><div class="card-head"><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><p>{{userlocation}}</p><h3>Top Stories:</h3><a v-for="article in articleList" :href="article.url">{{article.title}}</a></div></div>',
-      props: ['userlocation'],
-      computed: {
-        articleList: function () {
-          return [{
-            title: "test",
-            url: 'https://daily.zhihu.com/story/94509443930883'
-          }, {
-            title: "test",
-            url: 'https://daily.zhihu.com/story/94509443930883'
-          }];
-        }
-      }
-    };
-
-    const ClockCardContent = {
-      template: '<div><div class="card-head"><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}{{userlocation}}</div></div>',
-      props: ['userlocation'],
-      computed: {
-        currentTime: function () {
-          return '11:15';
-        }
-      }
-    };
-
-    Vue.component('zhihu-card-content', ZhihuCardContent);
-    Vue.component('clock-card-content', ClockCardContent);
-
-
     const UserPane = {
       name: 'userPane',
-      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>{{ display }}</p><input type="text" v-model="userlocation"></div></div>',
-      props: ['username', 'avatarSrc', 'userlocation'],
+      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>{{ display }}</p></div></div>',
+      props: ['username', 'avatarSrc'],
       computed: {
         display: function () {
           return "This is where we will place information that we want every user to see"
@@ -151,8 +122,8 @@
     };
 
     const Card = {
-      template: '<div class="card"><component :is="cardType" :userlocation="userlocation"></component></div>',
-      props: ['cardName', 'userlocation'],
+      template: '<div class="card"><component :is="cardType" ></component></div>',
+      props: ['cardName'],
       computed: {
         cardType: function () {
           return this.cardName + '-card-content';
@@ -161,8 +132,8 @@
     }
 
     const Board = {
-      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :userlocation="userlocation" :key="item.id" ></card></div>',
-      props: ['cardList', 'userlocation'],
+      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name"  :key="item.id" ></card></div>',
+      props: ['cardList'],
       components: {
         'card': Card
       }
@@ -177,7 +148,6 @@
       data: function () {
         return {
           username: 'test',
-          userlocation: 'Guangzhou',
           cardList: [{
             name: 'zhihu',
             iconSrc: './img/placeholder.png',

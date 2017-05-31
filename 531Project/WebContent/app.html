@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brief</title>
+  <link href="./style/normalize.css" rel="stylesheet" />
+  <link href="./style/app.css" rel="stylesheet" />
+  <style>
+    #app {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #484848;
+    }
+
+
+
+    .user-pane {
+      background-color: #F05967;
+      position: relative;
+      width: 30%;
+      height: 100vh;
+      padding: 1em;
+    }
+
+    .user-profile {
+      text-align: center;
+    }
+
+    .user-pane .user-avatar {
+      width: 120px;
+      height: 120px;
+    }
+
+    .user-pane .username {
+      font-size: 2em;
+      margin: 0;
+      margin-top: 0.5em;
+    }
+
+    .board {
+      position: relative;
+      width: 60%;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <user-pane v-bind:username="username" v-bind:avatar-src="avatarSrc"></user-pane>
+    <board v-bind:card-list="cardList"></board>
+  </div>
+
+  <script src="./script/vue.js "></script>
+  <script>
+    const UserPane = {
+      name: 'userPane',
+      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username }}</h3></div><div class="user-display"><p>{{ display }}</p></div></div>',
+      props: ['username', 'avatarSrc'],
+      computed: {
+        display: function () {
+          return "This is where we will place information that we want every user to see"
+        }
+      }
+    };
+
+    const Card = {
+
+    }
+
+    const Board = {
+      template: '<div class="board"><h1>board</h1></div>',
+      props: ['cardList']
+
+    };
+
+    var app = new Vue({
+      name: 'application',
+      components: {
+        'user-pane': UserPane,
+        'board': Board
+      },
+      data: function () {
+        return {
+          username: 'test',
+          cardList: [],
+          avatarSrc: './img/placeholder.png'
+        };
+      }
+    });
+
+    app.$mount('#app');
+  </script>
+</body>
+
+</html>

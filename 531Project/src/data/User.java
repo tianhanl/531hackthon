@@ -11,6 +11,9 @@ public class User {
 	private List<String> cardList = new ArrayList<String>();
 	
 	
+	public User(){
+		
+	}
 	
 	public User(String usr, String pwd, String nck){
 		this.setUsername(usr);

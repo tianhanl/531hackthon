@@ -10,10 +10,40 @@
 
 <body>
   <div id="app">
-
+    <user-pane v-bind:user-name="userName"></user-pane>
+    <board v-bind:card-list="cardList"></board>
   </div>
 
-  <script src="https://unpkg.com/vue "></script>
+  <script src="./script/vue.js "></script>
+  <script>
+    var UserPane = {
+      name: 'userPane',
+      template: '<div><h1>{{userName}}</h1></div>',
+      props: ['userName']
+    };
+
+    var Board = {
+      template: '<div><h1>board</h1></div>',
+      props: ['cardList']
+
+    };
+
+    var app = new Vue({
+      name: 'application',
+      components: {
+        'user-pane': UserPane,
+        'board': Board
+      },
+      data: function () {
+        return {
+          userName: 'test',
+          cardList: []
+        };
+      }
+    });
+
+    app.$mount('#app');
+  </script>
 </body>
 
 </html>

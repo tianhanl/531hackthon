@@ -84,11 +84,35 @@
   <!-- Improt Library -->
 
   <script src="./script/config.js"></script>
-
   <script>
+    const ZhihuCardContent = {
+      template: '<div><div class="card-head"><img class="card-icon" src="./img/zhihu-icon.jpg" alt="icon"/><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><a v-for="article in articleList" :src="article.url">{{article.title}}</a></div></div>',
+      computed: {
+        articleList: function () {
+          return [{
+            title: "test",
+            url: 'https://daily.zhihu.com/story/94509443930883'
+          }];
+        }
+      }
+    };
+
+    const ClockCardContent = {
+      template: '<div><div class="card-head"><img class="card-icon" src="./img/clock-icon.jpg" alt="icon"/><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}</div></div>',
+      computed: {
+        currentTime: function () {
+          return '11:15';
+        }
+      }
+    };
+
+    Vue.component('zhihu-card-content', ZhihuCardContent);
+    Vue.component('clock-card-content', ClockCardContent);
+
+
     const UserPane = {
       name: 'userPane',
-      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username }}</h3></div><div class="user-display"><p>{{ display }}</p><button></button> </div></div>',
+      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>{{ display }}</p><button></button> </div></div>',
       props: ['username', 'avatarSrc'],
       computed: {
         display: function () {
@@ -98,12 +122,17 @@
     };
 
     const Card = {
-      template: '<div class="card"><div class="card-head"><img class="card-icon" :src="iconSrc" alt="icon"/><h2 class="card-name">{{cardName}}</h2></div><div class="card-content" ></div></div>',
-      props: ['cardName', 'iconSrc', 'cardapi'],
+      template: '<div class="card"><component :is="cardType"></component></div>',
+      props: ['cardName'],
+      computed: {
+        cardType: function () {
+          return this.cardName + '-card-content';
+        }
+      }
     }
 
     const Board = {
-      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :icon-src="item.iconSrc" :cardapi="item.cardapi" :key="item.id"></card></div>',
+      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :key="item.id"></card></div>',
       props: ['cardList'],
       components: {
         'card': Card
@@ -121,12 +150,12 @@
         return {
           username: 'test',
           cardList: [{
-            name: 'Zhihu Daily',
+            name: 'zhihu',
             iconSrc: './img/placeholder.png',
             cardapi: '#',
             id: 0
           }, {
-            name: 'Clock',
+            name: 'clock',
             iconSrc: './img/placeholder.png',
             cardapi: '#',
             id: 1

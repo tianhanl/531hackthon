@@ -28,6 +28,16 @@ public class SQLDriver {
 				String nickname = rs.getString("nickname");
 				newUser = new User(username, password, nickname);
 			}
+			
+			ps = conn.prepareStatement(SELECTUSERCARD);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				String cardName = rs.getString("card_name");
+				int cardPosition = rs.getInt("card_position");
+				
+			}
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

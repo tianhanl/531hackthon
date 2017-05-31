@@ -3,6 +3,8 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import mysql.SQLDriver;
+
 
 public class User {
 	private String username;
@@ -45,8 +47,17 @@ public class User {
 		this.nickname = nickname;
 	}
 	
-	public void addOneCard(){
-		
+	public boolean addOneCard(String cardName, int position){
+		return SQLDriver.addCardToUser(this.username, cardName, position);
+	}
+	
+	public boolean addToCardList(String cardName, int position){
+		if(cardList[position].isEmpty())
+		{
+			cardList[position] = cardName;
+			return true;		
+		}
+		return false;
 	}
 	
 	

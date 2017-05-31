@@ -1,6 +1,6 @@
 
 const ZhihuCardContent = {
-  template: '<div class="card-head"><img class="card-icon" :src="./img/zhihu-icon.jpg" alt="icon"/><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><a v-for="article in articleList" :src="article.url">{{title}}</a></div></div>',
+  template: '<div class="card-head"><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><a v-for="article in articleList" :src="article.url">{{title}}</a></div></div>',
   computed: {
     articleList: function () {
       return [{
@@ -12,7 +12,7 @@ const ZhihuCardContent = {
 };
 
 const ClockCardContent = {
-  template: '<div class="card" > <div class="card-head"><img class="card-icon" :src="./img/clock-icon.jpg" alt="icon"/><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}</div>',
+  template: '<div class="card" > <div class="card-head"><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}</div>',
   computed: {
     currentTime: function () {
       return '11:15';

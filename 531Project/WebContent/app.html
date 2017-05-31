@@ -56,6 +56,13 @@
       padding: 1em;
     }
 
+    .card h3 {
+      font-size: 1.5rem;
+      height: 1.5rem;
+      margin: 0;
+      margin-bottom: 0.2em;
+    }
+
     .card .card-head {
       border-bottom: solid 2px #AEB3B5;
     }
@@ -67,16 +74,33 @@
 
     .card .card-name {
       margin-bottom: 0.2em;
-      margin-left: 0.5em;
       display: inline-block;
+    }
+
+    .card .card-content {
+      margin-top: 0.5em;
+      font-size: 1.5rem;
+    }
+
+    .card .card-content a {
+      display: block;
+      color: #484848;
+      text-decoration: none;
+      margin-bottom: 0.2em;
+    }
+
+    .card .card-content a:hover {
+      transition: all 300ms;
+      color: #F05967;
     }
   </style>
 </head>
 
 <body>
   <div id="app">
-    <user-pane v-bind:username="username" v-bind:avatar-src="avatarSrc"></user-pane>
-    <board v-bind:card-list="cardList"></board>
+    <p>{{userlocation}}</p>
+    <user-pane :username="username" :userlocation="userlocation" :avatar-src="avatarSrc"></user-pane>
+    <board :card-list="cardList" :userlocation="userlocation"></board>
   </div>
   <!-- Start of script -->
 
@@ -86,10 +110,14 @@
   <script src="./script/config.js"></script>
   <script>
     const ZhihuCardContent = {
-      template: '<div><div class="card-head"><img class="card-icon" src="./img/zhihu-icon.jpg" alt="icon"/><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><a v-for="article in articleList" :src="article.url">{{article.title}}</a></div></div>',
+      template: '<div><div class="card-head"><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><p>{{userlocation}}</p><h3>Top Stories:</h3><a v-for="article in articleList" :href="article.url">{{article.title}}</a></div></div>',
+      props: ['userlocation'],
       computed: {
         articleList: function () {
           return [{
+            title: "test",
+            url: 'https://daily.zhihu.com/story/94509443930883'
+          }, {
             title: "test",
             url: 'https://daily.zhihu.com/story/94509443930883'
           }];
@@ -98,7 +126,8 @@
     };
 
     const ClockCardContent = {
-      template: '<div><div class="card-head"><img class="card-icon" src="./img/clock-icon.jpg" alt="icon"/><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}</div></div>',
+      template: '<div><div class="card-head"><h2 class="card-name">Clock</h2></div> <div class="card-content" >{{currentTime}}{{userlocation}}</div></div>',
+      props: ['userlocation'],
       computed: {
         currentTime: function () {
           return '11:15';
@@ -112,8 +141,8 @@
 
     const UserPane = {
       name: 'userPane',
-      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>{{ display }}</p><button></button> </div></div>',
-      props: ['username', 'avatarSrc'],
+      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>{{ display }}</p><input type="text" v-model="userlocation"></div></div>',
+      props: ['username', 'avatarSrc', 'userlocation'],
       computed: {
         display: function () {
           return "This is where we will place information that we want every user to see"
@@ -122,8 +151,8 @@
     };
 
     const Card = {
-      template: '<div class="card"><component :is="cardType"></component></div>',
-      props: ['cardName'],
+      template: '<div class="card"><component :is="cardType" :userlocation="userlocation"></component></div>',
+      props: ['cardName', 'userlocation'],
       computed: {
         cardType: function () {
           return this.cardName + '-card-content';
@@ -132,12 +161,11 @@
     }
 
     const Board = {
-      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :key="item.id"></card></div>',
-      props: ['cardList'],
+      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :userlocation="userlocation" :key="item.id" ></card></div>',
+      props: ['cardList', 'userlocation'],
       components: {
         'card': Card
       }
-
     };
 
     var app = new Vue({
@@ -149,6 +177,7 @@
       data: function () {
         return {
           username: 'test',
+          userlocation: 'Guangzhou',
           cardList: [{
             name: 'zhihu',
             iconSrc: './img/placeholder.png',

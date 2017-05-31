@@ -8,7 +8,7 @@ public class User {
 	private String username;
 	private String password;
 	private String nickname;
-	private List<String> cardlist = new ArrayList<String>();
+	private String[] cardList = new String[6];
 	
 	
 	public User(){
@@ -45,12 +45,10 @@ public class User {
 		this.nickname = nickname;
 	}
 	
-	public List<String> getCardlist() {
-		return cardlist;
-	}
-	
 	public void addOneCard(){
 		
 	}
+	
+	
 	
 }

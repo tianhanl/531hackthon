@@ -13,7 +13,6 @@ public class SQLDriver {
 	private final static String ADDUSER = "INSERT INTO UserLogin(username, password, nickname) VALUES(?,?,?)";
 	private final static String ADDUSERCARD = "INSERT INTO UserInfo(username, card_name, card_position) VALUES(?,?,?)";
 	private final static String DELETECARD = "DELETE FROM userInfo WHERE username = ? AND card_position = ?";
-	private final static String DELETEUSERALLCARD = "DELETE FROM userInfo WHERE username = ?";
 
 	public static User findUser(String username){
 		User newUser = null;
@@ -98,24 +97,6 @@ public class SQLDriver {
 			return false;
 		}
 		return true;
-	}
-	
-	public static boolean resetCardPosition(User user){
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(JDBC);
-			PreparedStatement ps = conn.prepareStatement(DELETEUSERALLCARD);
-			ps.setString(1, user.getUsername());
-			ps.executeUpdate();
-			for(int i = 0; i < user.getCardlist().size(); i++){
-				
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Delete card error!");
-			return false;
-		}
 	}
 	
 	

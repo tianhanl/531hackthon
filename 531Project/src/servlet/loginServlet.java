@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mysql.SQLDriver;
+
 /**
  * Servlet implementation class loginServlet
  */
@@ -23,7 +25,14 @@ public class loginServlet extends HttpServlet {
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	System.out.println("in loginServlet");
+    	String username = request.getParameter("username");
+    	String password = request.getParameter("password");
     	
+    	if(SQLDriver.checkPassword(username, password)){
+    		// login successfully
+    	}else{
+    		// login fail
+    	}
     }
 
 }

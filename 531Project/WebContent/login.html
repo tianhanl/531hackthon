@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Day 001 Login Form</title>
+  
+  
+  <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
+
+      <link rel="stylesheet" href="./style/style.css">
+  <script>
+  	function validate()
+  	{
+  		var username = document.SignIn.username.value;
+		var password = document.SignIn.password.value;
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET","loginServlet?username="+username+"&password="+password);
+		
+		
+		xhttp.onreadystatechange = function() {
+			if(xhttp.readyState == XMLHttpRequest.DONE && xhttp.status ==200)
+			{
+				var data = JSON.parse(this.responseText);
+				if(data['login'])
+				{
+					window.location.href = data['message'];
+				}
+				else{
+					document.getElementById("error").innerHTML = data['message'];
+				}
+			}
+		}
+		
+		xhttp.send();
+		return false;
+ 	}
+  </script>
+  
+</head>
+
+<body>
+  <div class="login-wrap">
+    <div class = "login-title">
+    351Project
+    </div>
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+		<div class="login-form">
+			<form name="SignIn" method="GET" onsubmit="return validate();">
+			<div class="sign-in-htm">
+				<div class="group">
+					<label for="user" class="label">Username</label>
+					<input id="user" type="text" class="input" name="username">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Password</label>
+					<input id="pass" type="password" class="input" data-type="password" name="password">
+				</div>
+				<div class="group">
+					<input id="check" type="checkbox" class="check" checked>
+					<label for="check"><span class="icon"></span> Keep me Signed in</label>
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign In">
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<a href="#forgot">Forgot Password?</a>
+				</div>	
+			</div>
+			<div id="error">
+			</div>
+			</form>
+			
+			<div class="sign-up-htm">
+				<form name="Sign up" method="GET" action="SignUpServlet">
+				<div class="group">
+					<label for="user" class="label">Username</label>
+					<input id="user" type="text" class="input" name="username">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Password</label>
+					<input id="pass" type="password" class="input" data-type="password" name="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">First name</label>
+					<input id="pass" type="text" class="input" name="firstname">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Last name</label>
+					<input id="pass" type="text" class="input" name="lastname">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Email Address</label>
+					<input id="pass" type="text" class="input" name="email">
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign Up">
+				</div>
+				<div id="error">
+				</div>
+				</form>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<label for="tab-1">Already Member?</a>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+  
+  
+</body>
+</html>

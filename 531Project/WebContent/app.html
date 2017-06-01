@@ -43,7 +43,7 @@
 
     .board {
       position: relative;
-      width: 60%;
+      width: 70%;
       height: 100vh;
     }
 
@@ -54,6 +54,13 @@
       height: 30%;
       width: 50%;
       padding: 1em;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      height: 1.5rem;
+      margin: 0;
+      margin-bottom: 0.2em;
     }
 
     .card .card-head {
@@ -67,28 +74,50 @@
 
     .card .card-name {
       margin-bottom: 0.2em;
-      margin-left: 0.5em;
       display: inline-block;
+    }
+
+    .card .card-content {
+      margin-top: 0.5em;
+      font-size: 1rem;
+    }
+
+    .card .card-content a {
+      display: block;
+      color: #484848;
+      text-decoration: none;
+      margin-bottom: 0.2em;
+    }
+
+    .card .card-content a:hover {
+      transition: all 300ms;
+      color: #F05967;
+    }
+
+    .card .option-board {
+      min-height: 200px;
+      background-color: #E4E4E4;
     }
   </style>
 </head>
 
 <body>
   <div id="app">
-    <user-pane v-bind:username="username" v-bind:avatar-src="avatarSrc"></user-pane>
-    <board v-bind:card-list="cardList"></board>
+    <user-pane :username="username" :avatar-src="avatarSrc"></user-pane>
+    <board :card-list="cardList"></board>
   </div>
   <!-- Start of script -->
 
   <script src="./script/vue.js "></script>
+  <script src="./script/axios.min.js"></script>
   <!-- Improt Library -->
 
   <script src="./script/config.js"></script>
-
+  <script src="./script/cards.js"></script>
   <script>
     const UserPane = {
       name: 'userPane',
-      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username }}</h3></div><div class="user-display"><p>{{ display }}</p><button></button> </div></div>',
+      template: '<div class="user-pane"><div class="user-profile" ><img class="user-avatar" :src="avatarSrc" alt="avatar" /><h3 class="username">{{username}}</h3></div><div class="user-display"><p>Welcome, {{username}}. {{ display }}</p></div></div>',
       props: ['username', 'avatarSrc'],
       computed: {
         display: function () {
@@ -98,17 +127,21 @@
     };
 
     const Card = {
-      template: '<div class="card"><div class="card-head"><img class="card-icon" :src="iconSrc" alt="icon"/><h2 class="card-name">{{cardName}}</h2></div><div class="card-content" ></div></div>',
-      props: ['cardName', 'iconSrc', 'cardapi'],
+      template: '<div class="card"><component :is="cardType" ></component></div>',
+      props: ['cardName'],
+      computed: {
+        cardType: function () {
+          return this.cardName + '-card-content';
+        }
+      }
     }
 
     const Board = {
-      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name" :icon-src="item.iconSrc" :cardapi="item.cardapi" :key="item.id"></card></div>',
+      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name"  :key="item.id" ></card></div>',
       props: ['cardList'],
       components: {
         'card': Card
       }
-
     };
 
     var app = new Vue({
@@ -121,18 +154,26 @@
         return {
           username: 'test',
           cardList: [{
-            name: 'Zhihu Daily',
-            iconSrc: './img/placeholder.png',
-            cardapi: '#',
+            name: 'zhihu',
             id: 0
           }, {
-            name: 'Clock',
-            iconSrc: './img/placeholder.png',
-            cardapi: '#',
+            name: 'clock',
             id: 1
+          }, {
+            name: 'empty',
+            id: 2
+          }, {
+            name: 'empty',
+            id: 3
+          }, {
+            name: 'empty',
+            id: 4
+          }, {
+            name: 'empty',
+            id: 5
           }],
           avatarSrc: './img/placeholder.png'
-        };
+        }
       }
     });
 

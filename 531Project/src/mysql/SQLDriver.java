@@ -35,7 +35,9 @@ public class SQLDriver {
 			while(rs.next()){
 				String cardName = rs.getString("card_name");
 				int cardPosition = rs.getInt("card_position");
-				newUser.addToCardList(cardName, position);
+
+				if(!newUser.addToCardList(cardName, cardPosition)) 
+					System.out.println("Error with addToCardList");
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {

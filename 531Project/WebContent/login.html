@@ -36,6 +36,36 @@
  	}
   </script>
   
+  
+  <script>
+  	function validateSignUp()
+	{
+		var username = document.SignUp.username.value;
+		var password = document.SignUp.password.value;
+		var nickname = document.SignUp.nickname.value;
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET","loginServlet?username="+username+"&password="+password+"&nickname="+nickname);
+		
+		
+		xhttp.onreadystatechange = function() {
+			if(xhttp.readyState == XMLHttpRequest.DONE && xhttp.status ==200)
+			{
+				var data = JSON.parse(this.responseText);
+				if(data['login'])
+				{
+					window.location.href = data['message'];
+				}
+				else{
+					document.getElementById("error").innerHTML = data['message'];
+				}
+			}
+		}
+		
+		xhttp.send();
+		return false;
+	}
+  </script>
+  
 </head>
 
 <body>
@@ -74,7 +104,7 @@
 			</form>
 			
 			<div class="sign-up-htm">
-				<form name="Sign up" method="GET" action="SignUpServlet">
+				<form name="SignUp" method="GET" action="SignUpServlet" onsubmit="return validateSignUp();">
 				<div class="group">
 					<label for="user" class="label">Username</label>
 					<input id="user" type="text" class="input" name="username">
@@ -84,16 +114,8 @@
 					<input id="pass" type="password" class="input" data-type="password" name="password">
 				</div>
 				<div class="group">
-					<label for="pass" class="label">First name</label>
-					<input id="pass" type="text" class="input" name="firstname">
-				</div>
-				<div class="group">
-					<label for="pass" class="label">Last name</label>
-					<input id="pass" type="text" class="input" name="lastname">
-				</div>
-				<div class="group">
-					<label for="pass" class="label">Email Address</label>
-					<input id="pass" type="text" class="input" name="email">
+					<label for="pass" class="label">Nickname</label>
+					<input id="pass" type="text" class="input" name="nickname">
 				</div>
 				<div class="group">
 					<input type="submit" class="button" value="Sign Up">

@@ -1,3 +1,18 @@
+// This script will add all the available cards to the vue global space
+const EmptyCardContent = {
+  template: '<div class="option-board" v-on:mouseover="mouseHover=true" v-on:mouseleave="mouseHover=false"><div v-if="mouseHover" ><button @click="changeType(\'zhihu\')">Zhihu</button><button @click="changeType(\'clock\')">Clock</button></div></div> ',
+  data: function () {
+    return {
+      mouseHover: false
+    };
+  },
+  methods: {
+    changeType: function (typeToChange) {
+      this.$parent.cardName = typeToChange;
+    }
+  }
+};
+
 const ZhihuCardContent = {
   template: '<div><div class="card-head"><h2 class="card-name">Zhihu Daily</h2></div> <div class="card-content" ><h3>Top Stories:</h3><a v-for="article in articleList" :href="article.url" target="_blank">{{article.title}}</a></div></div>',
   computed: {
@@ -74,6 +89,6 @@ const ClockCardContent = {
     this.setUpdateTime();
   }
 };
-
+Vue.component('empty-card-content', EmptyCardContent);
 Vue.component('zhihu-card-content', ZhihuCardContent);
 Vue.component('clock-card-content', ClockCardContent);

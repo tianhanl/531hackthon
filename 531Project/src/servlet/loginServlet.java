@@ -38,6 +38,7 @@ public class loginServlet extends HttpServlet {
     		System.out.println("success");
     		User loggedInUser = SQLDriver.findUser(username);
     		session.setAttribute("loggedInUser", loggedInUser);
+
     		response.getWriter().write("{\"login\":true , \"message\": \"app.html\"}");
 
     	}else{

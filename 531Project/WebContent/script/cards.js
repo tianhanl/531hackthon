@@ -19,7 +19,12 @@ const ZhihuCardContent = {
   computed: {
     articleList: function () {
       var list = [];
-      var resData;
+      var resData = {
+        top_stories: [{
+          title: 'test',
+          id: 3930883
+        }]
+      };
       axios.get('/actionServlet').then(function (response) {
         resData = JSON.parse(response.data);
       }).catch(function (error) {

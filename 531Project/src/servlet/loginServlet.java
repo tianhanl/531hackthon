@@ -36,7 +36,8 @@ public class loginServlet extends HttpServlet {
     	if(SQLDriver.checkPassword(username, password)){
     		// login successfully
     		User loggedInUser = SQLDriver.findUser(username);
-    		session.setAttribute("loggedInUser", loggedInUser); 
+    		session.setAttribute("loggedInUser", loggedInUser);
+    		response.sendRedirect("homepage.html");
     	}else{
     		// login fail
     		session.setAttribute("error", "incorrect username or password");

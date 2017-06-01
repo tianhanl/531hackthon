@@ -1,6 +1,7 @@
 // This script will add all the available cards to the vue global space
 const EmptyCardContent = {
-  template: '<div class="option-board" v-on:mouseover="mouseHover=true" v-on:mouseleave="mouseHover=false"><div v-if="mouseHover" ><button @click="changeType(\'zhihu\')">Zhihu</button><button @click="changeType(\'clock\')">Clock</button></div></div> ',
+  template: '<div class="option-board" v-on:mouseover="mouseHover=true" v-on:mouseleave="mouseHover=false"><div v-if="mouseHover" ><button v-for="option in options" @click="changeType(option)">{{option}}</button></div></div> ',
+  props: ['options'],
   data: function () {
     return {
       mouseHover: false
@@ -8,7 +9,7 @@ const EmptyCardContent = {
   },
   methods: {
     changeType: function (typeToChange) {
-      this.$parent.cardName = typeToChange;
+      this.$emit('typechange', typeToChange);
     }
   }
 };

@@ -7,98 +7,6 @@
   <title>Brief</title>
   <link href="./style/normalize.css" rel="stylesheet" />
   <link href="./style/app.css" rel="stylesheet" />
-  <style>
-    #app {
-      position: relative;
-      display: flex;
-      justify-content: left;
-      font-size: 16px;
-      color: #484848;
-    }
-
-    .user-pane {
-      background-color: #F05967;
-      box-sizing: border-box;
-      position: relative;
-      width: 30%;
-      height: 100vh;
-      padding: 1em;
-      color: white;
-    }
-
-    .user-profile {
-      text-align: center;
-    }
-
-    .user-pane .user-avatar {
-      width: 120px;
-      height: 120px;
-    }
-
-    .user-pane .username {
-      font-size: 2em;
-      margin: 0;
-      margin-top: 0.5em;
-    }
-
-    .board {
-      position: relative;
-      width: 70%;
-      height: 100vh;
-    }
-
-    .card {
-      display: inline-block;
-      box-sizing: border-box;
-      overflow: hidden;
-      height: 30%;
-      width: 50%;
-      padding: 1em;
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      height: 1.5rem;
-      margin: 0;
-      margin-bottom: 0.2em;
-    }
-
-    .card .card-head {
-      border-bottom: solid 2px #AEB3B5;
-    }
-
-    .card .card-icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    .card .card-name {
-      margin-bottom: 0.2em;
-      display: inline-block;
-    }
-
-    .card .card-content {
-      margin-top: 0.5em;
-      font-size: 1rem;
-    }
-
-    .card .card-content a {
-      display: block;
-      color: #484848;
-      text-decoration: none;
-      margin-bottom: 0.2em;
-    }
-
-    .card .card-content a:hover {
-      transition: all 300ms;
-      color: #F05967;
-    }
-
-    .card .option-board {
-      min-height: 200px;
-      background-color: #E4E4E4;
-    }
-  </style>
 </head>
 
 <body>
@@ -127,20 +35,62 @@
     };
 
     const Card = {
-      template: '<div class="card"><component :is="cardType" ></component></div>',
-      props: ['cardName'],
+      template: '<div class="card"><empty-card-content v-if="empty" :options="options" v-on:typechange="changeCardType"></empty-card-content><component v-else :is="cardType"  ></component></div>',
+      props: ['cardName', 'id', 'options'],
       computed: {
         cardType: function () {
           return this.cardName + '-card-content';
+        },
+        empty: function () {
+          if (this.cardName === 'empty') return true;
+          return false;
+        }
+      },
+      methods: {
+        changeCardType: function (typeToChange) {
+          this.$emit('typechange', typeToChange, this.id);
         }
       }
     }
 
     const Board = {
-      template: '<div class="board"><card v-for="item in cardList" :card-name="item.name"  :key="item.id" ></card></div>',
+      template: '<div class="board"><card v-for="item in cardList" :id="item.id" :card-name="item.name" :options="options" v-on:typechange="changeCardType" :key="item.id" ></card></div>',
       props: ['cardList'],
       components: {
-        'card': Card
+        'card': Card,
+      },
+      data: function () {
+        return {
+          options: []
+        }
+      },
+      created: function () {
+        var result = ['zhihu', 'clock', 'test'];
+        var found = false;
+        for (var i = 0; i < result.length; i++) {
+          found = false;
+          for (var z = 0; z < this.cardList.length; z++) {
+            if (result[i] === this.cardList[z].name) {
+              found = true;
+            }
+          }
+          if (!found) {
+            this.options.push(result[i]);
+          }
+        }
+      },
+      methods: {
+        changeCardType: function (typeToChange, id) {
+          this.cardList[id].name = typeToChange;
+          this.modifyOptions(typeToChange);
+        },
+        modifyOptions: function (typeToChange) {
+          for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i] === typeToChange) {
+              this.options.splice(i, 1);
+            }
+          }
+        }
       }
     };
 

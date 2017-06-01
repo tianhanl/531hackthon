@@ -32,16 +32,19 @@ public class loginServlet extends HttpServlet {
     	
     	String username = request.getParameter("username");
     	String password = request.getParameter("password");
+    	System.out.println(username + " " + password);
     	
     	if(SQLDriver.checkPassword(username, password)){
-  
+    		System.out.println("success");
     		User loggedInUser = SQLDriver.findUser(username);
     		session.setAttribute("loggedInUser", loggedInUser);
-    		response.sendRedirect("homepage.html");
+    		response.getWriter().write("{\"login\":true , \"message\": \"app.html\"}");
 
     	}else{
     		// login fail
+    		System.out.println("fail");
     		session.setAttribute("error", "incorrect username or password");
+    		response.getWriter().write("{\"login\":false , \"message\": \"incorrect username or password\"}");
     	}
     }
 
